@@ -47,8 +47,8 @@ def main():
     # ==================================
     #       Get Train/Val.
     # ==================================
-    trnlist, trnlb = toolkits.get_voxceleb2_datalist(args, path='../meta/voxlb2_train.txt')
-    vallist, vallb = toolkits.get_voxceleb2_datalist(args, path='../meta/voxlb2_val.txt')
+    trnlist, trnlb = toolkits.get_voxceleb2_datalist(args, path='/content/train.txt')
+    vallist, vallb = toolkits.get_voxceleb2_datalist(args, path='/content/val.txt')
 
     # construct the data generator.
     params = {'dim': (257, 250, 1),
@@ -78,7 +78,7 @@ def main():
     mgpu = len(keras.backend.tensorflow_backend._get_available_gpus())
     if args.resume:
         if os.path.isfile(args.resume):
-            if mgpu == 1: network.load_weights(os.path.join(args.resume))
+            if mgpu == 1: network.load_weights(os.path.join(args.resume),by_name=True)
             else: network.layers[mgpu + 1].load_weights(os.path.join(args.resume))
             print('==> successfully loading model {}.'.format(args.resume))
         else:
@@ -185,7 +185,7 @@ def set_path(args):
                                 'bdim{args.bottleneck_dim}_ohemlevel{args.ohem_level}'.format(date, args=args))
     else:
         raise IOError('==> unknown aggregation mode.')
-    model_path = os.path.join('../model', exp_path)
+    model_path = os.path.join('/content/googledrive/MyDrive/colabdrive/VoveCode/models', exp_path)
     log_path = os.path.join('../log', exp_path)
     if not os.path.exists(model_path): os.makedirs(model_path)
     if not os.path.exists(log_path): os.makedirs(log_path)
