@@ -34,9 +34,6 @@ parser.add_argument('--test_type', default='normal', choices=['normal', 'hard', 
 global args
 args = parser.parse_args()
 
-def addPath(x):
-  return "/content/VoveDataset/public-test/"+ x
-
 def main():
 
     # gpu configuration
@@ -48,14 +45,10 @@ def main():
     # ==================================
     print('==> calculating test({}) data lists...'.format(args.test_type))
 
-    
-    publicTest = pd.read_csv("/content/VoveDataset/public-test.csv")
-    
-    list1 = addPath(np.array(publicTest["audio_1"]))
-    list2 = addPath(np.array(publicTest["audio_2"]))
+    errTest = pd.read_csv("/content/train.txt")
 
-    total_list = np.concatenate((list1, list2))
-    unique_list = np.unique(total_list)
+    unique_list = np.unique(np.array(errTest["path"]))
+
     # ==================================
     #       Get Model
     # ==================================
@@ -103,7 +96,8 @@ def main():
         feats += [v]
     
     feats = np.array(feats)
-    np.save("/content/feats.npy",feats)
+    np.save("/content/feats_test.npy",feats)
 
+    
 if __name__ == "__main__":
     main()

@@ -5,7 +5,7 @@ import sys
 import keras
 import numpy as np
 
-sys.path.append('../tool')
+sys.path.append('../tools')
 import toolkits
 
 # ===========================================
@@ -141,6 +141,7 @@ def step_decay(epoch):
     The learning rate begins at 10^initial_power,
     and decreases by a factor of 10 every step epochs.
     '''
+    return 0.0001
     half_epoch = args.epochs // 2
     stage1, stage2, stage3 = int(half_epoch * 0.5), int(half_epoch * 0.8), half_epoch
     stage4 = stage3 + stage1
