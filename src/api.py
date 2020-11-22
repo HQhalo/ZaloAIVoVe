@@ -7,8 +7,6 @@ import pandas as pd
 sys.path.append('../tools')
 import toolkits
 import utils as ut
-from progressbar import ProgressBar
-pbar = ProgressBar()
 from flask import Flask, request, jsonify
 import json
 import os 
@@ -44,6 +42,7 @@ parser.add_argument('--aggregation_mode', default='gvlad', choices=['avg', 'vlad
 parser.add_argument('--loss', default='softmax', choices=['softmax', 'amsoftmax'], type=str)
 parser.add_argument('--test_type', default='normal', choices=['normal', 'hard', 'extend'], type=str)
 parser.add_argument('--warmup_file', default='', type=str)
+parser.add_argument("--debug", default= True, type=bool)
 global args
 args = parser.parse_args()
 import model
@@ -161,4 +160,4 @@ def api_predict():
 if __name__ == '__main__':
     load_model()
     warmup()
-    app.run(host='0.0.0.0', port='6677', debug=True)
+    app.run(host='0.0.0.0', port='6677', debug=False)

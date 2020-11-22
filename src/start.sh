@@ -1,1 +1,3 @@
-cd /content/googledrive/MyDrive/colabdrive/VoveCode/src && python2 api.py --gpu 0 --net resnet34s --ghost_cluster 2 --vlad_cluster 8 --warmup_file "chunk-00.wav" --loss softmax --resume "/content/googledrive/MyDrive/colabdrive/VoveCode/models/gvlad_softmax/2020-11-17_resnet34s_bs41_adam_lr0.001_vlad8_ghost2_bdim512_ohemlevel0/weights-04-0.932.h5"
+#!/bin/sh
+
+cd /home/src && python2 api.py --gpu 0 --net resnet34s --ghost_cluster 2 --vlad_cluster 8 --warmup_file "chunk-00.wav" --resume "/home/weights-15-0.873.h5"

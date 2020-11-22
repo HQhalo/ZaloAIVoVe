@@ -1,10 +1,19 @@
 import os
 import numpy as np
 
+from tensorflow.python.client import device_lib
+def get_available_gpus():
+    local_device_protos = device_lib.list_local_devices()
+    return [x.name for x in local_device_protos if x.device_type == 'GPU']
+
+
 def initialize_GPU(args):
     # Initialize GPUs
+    from tensorflow.python.client import device_lib
+
+    device_lib.list_local_devices()
     import tensorflow as tf
-    os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
+    os.environ["CUDA_VISIBLE_DEVICES"] = get_available_gpus()[0][-1]
     config = tf.ConfigProto()
     config.gpu_options.allow_growth = True
     session = tf.Session(config=config)
