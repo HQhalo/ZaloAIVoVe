@@ -1,13 +1,15 @@
 # Third Party
 import librosa
 import numpy as np
+from pydub import AudioSegment
 
 # ===============================================
 #       code from Arsha for loading data.
 # ===============================================
 def load_wav(vid_path, sr, mode='train'):
-    wav, sr_ret = librosa.load(vid_path, sr=sr)
-    assert sr_ret == sr
+    sound = AudioSegment.from_file(vid_path,frame_rate=sr)
+    wav= np.array(sound.get_array_of_samples()).astype(np.float32)/32768
+
     if mode == 'train':
         extended_wav = np.append(wav, wav)
         if np.random.random() < 0.3:

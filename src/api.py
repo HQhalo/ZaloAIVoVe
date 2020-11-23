@@ -121,36 +121,29 @@ def api_predict():
     v1 = None
     v2 = None
     point2 = timeit.default_timer()
-    
-    Q = Queue()
-    def calcSpec(filename):
-        specs = ut.load_data(filename, win_length=params['win_length'], sr=params['sampling_rate'],
-                                    hop_length=params['hop_length'], n_fft=params['nfft'],
-                                    spec_len=params['spec_len'], mode='eval')
-        Q.put(np.expand_dims(np.expand_dims(specs, 0), -1))
 
-    p1 = Process(target=calcSpec, args=(filename_1,))
-    p2 = Process(target=calcSpec, args=(filename_2,))
+    specs = ut.load_data(filename_1, win_length=params['win_length'], sr=params['sampling_rate'],
+                            hop_length=params['hop_length'], n_fft=params['nfft'],
+                            spec_len=params['spec_len'], mode='eval')
+    specs = np.expand_dims(np.expand_dims(specs, 0), -1)
 
-    p1.start()
-    p2.start()
-    spec1 = Q.get()
-    spec2 = Q.get()
-    p1.join()
-    p2.join()
     point3 = timeit.default_timer()
-    
     print('Time calc specs: ', point3 - point2)
-
-    with graph.as_default():
-        v1 = network_eval.predict(spec1)
     
     with graph.as_default():
-        v2 = network_eval.predict(spec2)
-    label = (np.linalg.norm(v1 - v2) < 0.547742) * 1
+        v1 = network_eval.predict(specs)
+
+
+    specs = ut.load_data(filename_2, win_length=params['win_length'], sr=params['sampling_rate'],
+                            hop_length=params['hop_length'], n_fft=params['nfft'],
+                            spec_len=params['spec_len'], mode='eval')
+    specs = np.expand_dims(np.expand_dims(specs, 0), -1)
+    with graph.as_default():
+        v2 = network_eval.predict(specs)
+
 
     point4 = timeit.default_timer()
-
+    label = (np.linalg.norm(v1 - v2) < 0.547742) * 1
     print("Time overal ", point4- point1)
     return jsonify(
         label = label
