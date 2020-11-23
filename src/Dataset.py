@@ -6,7 +6,6 @@ from tqdm import tqdm
 from pathlib import Path
 import multiprocessing 
 import pandas as pd
-sys.path.append('../data/')
 from Speaker import *
 class Dataset:
     def __init__(self,pathDataset):

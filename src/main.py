@@ -5,7 +5,6 @@ import sys
 import keras
 import numpy as np
 
-sys.path.append('../tools')
 import toolkits
 
 # ===========================================

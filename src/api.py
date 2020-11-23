@@ -4,7 +4,6 @@ import os
 import sys
 import numpy as np
 import pandas as pd
-sys.path.append('../tools')
 import toolkits
 import utils as ut
 from flask import Flask, request, jsonify
@@ -15,7 +14,8 @@ import hashlib
 import copy 
 from werkzeug.utils import secure_filename
 import tensorflow as tf
-AUDIO_STORAGE = os.path.join("/content", "audio_storage")
+
+AUDIO_STORAGE =os.path.join(os.path.dirname(os.path.abspath(__file__)),"audio_storage")
 if not os.path.isdir(AUDIO_STORAGE):
     os.makedirs(AUDIO_STORAGE)
 global graph
